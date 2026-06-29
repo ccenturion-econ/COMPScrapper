@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+.venv-*/
+
+# Build artifacts
+build/
+dist/
+*.spec.bak
+packaging/output/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local config / outputs produced while testing
+*.xlsx
+!tests/fixtures/*.xlsx

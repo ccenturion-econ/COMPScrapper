@@ -1,0 +1,80 @@
+# Compila la app para macOS y Windows y publica un GitHub Release al taggear vX.Y.Z.
+# Borrador de Fase 3: la especificación de PyInstaller (packaging/compscrapper.spec) y el
+# script de Inno Setup (packaging/installer.iss) se agregan en esa fase.
+name: build
+
+on:
+  push:
+    tags: ["v*.*.*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write  # necesario para publicar el release
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements-dev.txt
+      - run: pytest
+      - run: pip-audit -r requirements.txt || true  # informativo en v1
+
+  build:
+    needs: test
+    strategy:
+      matrix:
+        include:
+          - os: macos-latest
+            artifact: COMPScrapper-macos
+          - os: windows-latest
+            artifact: COMPScrapper-windows
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements-dev.txt
+
+      - name: PyInstaller
+        run: pyinstaller packaging/compscrapper.spec --noconfirm
+
+      - name: Empaquetar (macOS .dmg)
+        if: matrix.os == 'macos-latest'
+        run: bash packaging/make_dmg.sh
+
+      - name: Empaquetar (Windows Inno Setup)
+        if: matrix.os == 'windows-latest'
+        run: iscc packaging/installer.iss
+
+      - name: Checksums
+        shell: bash
+        run: |
+          cd dist
+          if [ "${{ matrix.os }}" = "macos-latest" ]; then f=COMPScrapper.dmg; else f=COMPScrapper-setup.exe; fi
+          shasum -a 256 "$f" > "$f.sha256" || sha256sum "$f" > "$f.sha256"
+
+      - uses: actions/upload-artifact@v5
+        with:
+          name: ${{ matrix.artifact }}
+          path: |
+            dist/*.dmg
+            dist/*.exe
+            dist/*.sha256
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+      - uses: actions/download-artifact@v5
+        with:
+          path: artifacts
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: artifacts/**/*
+          generate_release_notes: true

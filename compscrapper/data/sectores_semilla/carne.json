@@ -1,0 +1,74 @@
+{
+  "nombre": "Carne",
+  "descripcion": "quejas de ganaderos por precios bajos pagados por los frigoríficos",
+  "terminos_sector": [
+    "frigorífico",
+    "carne",
+    "ganado",
+    "ganadero",
+    "industria cárnica",
+    "faena",
+    "kg. al gancho",
+    "ganadería"
+  ],
+  "terminos_queja": [
+    "acuerdo",
+    "colusión",
+    "monopolio",
+    "oligopolio",
+    "abuso",
+    "posición dominante",
+    "denuncia",
+    "reclamo",
+    "competencia",
+    "desleal",
+    "concentración",
+    "cartel",
+    "unilateral",
+    "Conacom",
+    "investigación",
+    "sumario",
+    "sobreprecio",
+    "distorsión",
+    "manipulación",
+    "mafia",
+    "transparencia",
+    "fijación",
+    "acusan"
+  ],
+  "terminos_contexto": [
+    "precio",
+    "compra",
+    "exportación",
+    "importación"
+  ],
+  "consultas": [
+    "ganaderos denuncian",
+    "salen de la compra",
+    "acuerdo de precios",
+    "monopolio de frigoríficos",
+    "abuso de posición dominante",
+    "frigoríficos Conacom",
+    "precio carne concentración",
+    "carne posición dominante OR sumario",
+    "industria frigorífica investigación Paraguay"
+  ],
+  "consultas_descubrimiento": [
+    "principales ganaderos",
+    "frigoríficos de exportación",
+    "gremios de ganaderos",
+    "gremios de la industria carnica",
+    "consignatarios",
+    "industria de la carne"
+  ],
+  "ambito_geografico": [],
+  "exclusiones": [
+    "precio"
+  ],
+  "dominios_fuente": [
+    "arp.org.py",
+    "ugp.org.py",
+    "capeco.org.py",
+    "valoragro.com.py"
+  ]
+}

@@ -1,0 +1,6 @@
+# Dependencias de ejecución (fijadas para reproducibilidad y cadena de suministro).
+requests==2.32.3
+beautifulsoup4==4.12.3
+openpyxl==3.1.5
+googlenewsdecoder==0.1.7
+PySide6==6.8.1

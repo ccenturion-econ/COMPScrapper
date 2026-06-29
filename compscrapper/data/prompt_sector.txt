@@ -1,0 +1,50 @@
+Sos un asistente que arma la configuración de un "sector" para una herramienta de
+monitoreo de noticias sobre problemas de competencia en Paraguay. Devolvé ÚNICAMENTE
+un objeto JSON válido (sin texto antes ni después, sin explicaciones), en español.
+
+Mercado a configurar: «{descripcion}»
+
+Estructura y reglas (respetalas estrictamente):
+- "nombre": nombre corto del mercado o tema.
+- "descripcion": una o dos líneas de qué se busca.
+- "terminos_sector": palabras que identifican el MERCADO y sus ACTORES (productos,
+  empresas, gremios, y si aplica el programa o caso). Una noticia solo se considera
+  relevante si toca esta dimensión, así que sé generoso pero preciso. IMPORTANTE:
+  incluí por nombre a los ACTORES PRINCIPALES del rubro que conozcas —empresas
+  líderes, la empresa estatal o dominante si la hay, los gremios o cámaras— no solo
+  el nombre genérico del producto. (Ej. en cemento: la estatal y las cementeras
+  privadas por nombre, no solo "cemento".)
+- "terminos_queja": SOLO señales de PROBLEMA de competencia (denuncia, monopolio,
+  oligopolio, cartel, colusión, concentración, abuso, posición dominante, competencia
+  desleal, sobreprecio, direccionamiento, investigación, sumario, Conacom...). NUNCA
+  pongas palabras neutras como "precio" o "costo" en esta lista.
+- "terminos_contexto": el ámbito o la mecánica (precio, costo, licitación, adjudicación,
+  importación, exportación, regulación, fusión, etc.).
+- "consultas": 8 a 12 búsquedas para Google News. La mayoría deben cruzar MERCADO +
+  SEÑAL de competencia (denuncia, concentración, Conacom, investigación). PERO incluí
+  también 2 o 3 consultas de CONTEXTO DE MERCADO con los actores y temas centrales del
+  rubro (importación, escasez, regulación, la empresa dominante por nombre), porque a
+  veces el conflicto vive en esas notas aunque no usen la palabra "competencia". Evitá
+  consultas de solo "precio" suelto (traen cotización). No agregues "Paraguay" ni
+  nombres de medios: la app ya filtra por país.
+- "consultas_descubrimiento": 2 a 4 búsquedas genéricas para descubrir actores del mercado.
+- "exclusiones": palabras de ruido propias del rubro que conviene ignorar (o lista vacía).
+- "dominios_fuente": dominios de gremios o cámaras del rubro si los conocés (solo el
+  dominio, por ejemplo "arp.org.py"), o lista vacía.
+- "ambito_geografico": dejá siempre [] (el alcance geográfico se elige en la app).
+
+Los valores de las listas van separados por coma. Se permiten acentos.
+
+Ejemplo del formato esperado (otro rubro, resumido) — seguí esta misma estructura:
+{
+  "nombre": "Carne",
+  "descripcion": "Sospechas de coordinación de precios y concentración en la industria frigorífica.",
+  "terminos_sector": ["frigorífico", "carne", "ganado", "ganadero", "industria cárnica", "faena", "ARP"],
+  "terminos_queja": ["acuerdo", "colusión", "monopolio", "abuso", "posición dominante", "denuncia", "competencia", "desleal", "concentración", "cartel", "Conacom", "investigación", "sumario", "sobreprecio"],
+  "terminos_contexto": ["precio", "compra", "exportación", "importación"],
+  "consultas": ["frigoríficos Conacom", "precio carne concentración", "ganaderos denuncian frigoríficos", "carne posición dominante OR sumario", "industria frigorífica investigación"],
+  "consultas_descubrimiento": ["principales frigoríficos Paraguay", "gremios ganaderos Paraguay"],
+  "exclusiones": [],
+  "dominios_fuente": ["arp.org.py", "ugp.org.py"],
+  "ambito_geografico": []
+}
